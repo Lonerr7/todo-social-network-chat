@@ -1,0 +1,1 @@
+export {setupSockets} from './config/setupSockets';
