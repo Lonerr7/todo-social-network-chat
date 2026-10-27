@@ -1,0 +1,34 @@
+name: todo_social_network_chat_redis
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - redis-data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-network
+    restart: unless-stopped
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540" # Порт для доступа к веб-интерфейсу
+    volumes:
+      - redis-insight-data:/db
+    networks:
+      - redis-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+  redis-insight-data:
+
+networks:
+  redis-network:
+    driver: bridge
