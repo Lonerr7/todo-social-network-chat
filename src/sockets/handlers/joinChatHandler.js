@@ -1,6 +1,6 @@
 import {User} from '../../models';
 import {redisClient} from '../../config/redis';
-import {broadcastOnlineUsers} from '../utils/broadcastOnlineUsers';
+import {manageOnlineUsers} from '../utils/manageOnlineUsers';
 
 export const joinChatHandler = (io, socket) => {
   socket.on('joinChat', async ({userId}) => {
@@ -17,7 +17,8 @@ export const joinChatHandler = (io, socket) => {
       redisClient.set(`presence:${userId}`, payload, {EX: 30}),
       redisClient.sAdd('online_users', userId),
     ]);
-    await broadcastOnlineUsers(io);
+
+    await manageOnlineUsers(io);
   });
 };
 

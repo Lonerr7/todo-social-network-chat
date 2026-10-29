@@ -1,6 +1,6 @@
 import {redisClient} from '../../config/redis';
 
-export const broadcastOnlineUsers = async (io) => {
+export const manageOnlineUsers = async (io) => {
   const ids = await redisClient.sMembers('online_users');
   const usersKeys = ids.map((id) => `presence:${id}`);
   if (!usersKeys || !usersKeys.length) return;
@@ -20,8 +20,6 @@ export const broadcastOnlineUsers = async (io) => {
   if (offlineUsers.length) {
     await redisClient.sRem('online_users', offlineUsers);
   }
-
-  console.log(onlineUsers);
 
   io.emit('onlineUsers', onlineUsers);
 };

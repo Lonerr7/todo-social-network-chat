@@ -1,6 +1,5 @@
 import {authMiddleware} from '../middlewares/authMiddleware';
-import {joinChatHandler} from '../handlers/joinChatHandler';
-import {onlineUsersHandler} from '../handlers/onlineUsersHandler';
+import {HandlersList} from './HandlersList';
 
 export const setupSockets = (io) => {
   // middlewares
@@ -10,8 +9,7 @@ export const setupSockets = (io) => {
     console.log(`socket connected. id: ${socket.id}`);
 
     // handlers
-    joinChatHandler(io, socket);
-    onlineUsersHandler(io, socket);
+    HandlersList.forEach((handler) => handler(io, socket));
 
     socket.on("disconnect", (reason) => {
       console.log(`socket ${socket.id} disconnected`);
