@@ -1,9 +1,11 @@
 import {User} from '../../models';
 import {redisClient} from '../../config/redis';
 import {manageOnlineUsers} from '../utils/manageOnlineUsers';
+import {ChatMessage} from '../../models';
 
 export const joinChatHandler = (io, socket) => {
   socket.on('joinChat', async ({userId}) => {
+    // Loading user and checking online status
     const userFromDB = await User.findById(userId);
     if (!userFromDB) return;
 
@@ -19,6 +21,12 @@ export const joinChatHandler = (io, socket) => {
     ]);
 
     await manageOnlineUsers(io);
+
+    // Sending chat messages to connected user
+    const chatMessages = await ChatMessage.find().populate({
+      path: 'user',
+      select: 'nickname photo',
+    });
+    socket.emit('getChatMessages', chatMessages);
   });
 };
-
