@@ -11,7 +11,7 @@ export const setupPresenceExpiration = async (io) => {
 
   await subscriber.connect();
 
-  // Уведомления
+  // Notifications
   await redisClient.configSet('notify-keyspace-events', 'Ex');
 
   await subscriber.subscribe('__keyevent@0__:expired', async (key) => {

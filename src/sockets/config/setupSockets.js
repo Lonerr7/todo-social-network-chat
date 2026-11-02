@@ -11,7 +11,7 @@ export const setupSockets = (io) => {
     // handlers
     HandlersList.forEach((handler) => handler(io, socket));
 
-    socket.on("disconnect", (reason) => {
+    socket.on("disconnect", () => {
       console.log(`socket ${socket.id} disconnected`);
     });
   });

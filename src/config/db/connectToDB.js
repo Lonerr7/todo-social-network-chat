@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-export const connectToDB = async () => {
+// TODO: write in async/await way. Create function main in index.js file. Await setupPresenceExpiration there also.
+
+export const connectToDB = () => {
   mongoose
     .connect(process.env.DATABASE)
     .then(() => {

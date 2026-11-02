@@ -28,8 +28,10 @@ export const authMiddleware = async (socket, next) => {
 
   // 4) Check if user changed passwords after JWT was issued
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    return next(new AppError('User recently changed password! Please log in again', 401));
+    return next(new Error('User recently changed password! Please log in again'));
   }
+
+  socket.userId = decoded.id;
 
   next();
 };
