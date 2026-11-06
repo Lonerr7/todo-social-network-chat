@@ -7,7 +7,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development tsx watch index.js"
+    "start:dev": "cross-env NODE_ENV=development tsx watch index.js",
+    "start:prod": "cross-env NODE_ENV=production tsx watch index.js"
   },
   "dependencies": {
     "dotenv": "^18.0.7",
